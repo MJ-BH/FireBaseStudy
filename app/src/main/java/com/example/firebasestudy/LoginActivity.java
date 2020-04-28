@@ -1,17 +1,20 @@
 package com.example.firebasestudy;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.firebasestudy.databinding.ActivityLoginBinding;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
     private ActivityLoginBinding binding ;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +22,7 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
-        initFireBAse();
+        mAuth = FirebaseAuth.getInstance();
         binding.loginBtn.setOnClickListener(v -> Login());
         binding.inscriBtn.setOnClickListener(v -> startActivity( new Intent(LoginActivity.this , InscriptionActivity.class)));
     }
@@ -29,10 +32,17 @@ public class LoginActivity extends AppCompatActivity {
             String password = binding.passwordInput.getText().toString();
             if (validEmail() && validPassword())
             {
+                mAuth.signInWithEmailAndPassword(mail, password).addOnCompleteListener(task -> {
 
-// TODO: FireBase Login
-                startActivity( new Intent(LoginActivity.this , MainActivity.class));
-                finish();
+                    if (task.isSuccessful()) {
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        finish();
+                    } else {
+                        Snackbar.make(binding.getRoot(), task.getException().getMessage(), Snackbar.LENGTH_LONG);
+                    }
+
+                });
+
             }
         }
 
@@ -73,7 +83,4 @@ public class LoginActivity extends AppCompatActivity {
      return  valide ;
     }
 
-    private void initFireBAse(){
-
-    }
 }

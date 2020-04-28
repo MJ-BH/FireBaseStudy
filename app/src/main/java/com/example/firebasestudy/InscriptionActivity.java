@@ -54,7 +54,7 @@ public class InscriptionActivity extends AppCompatActivity {
         public void choosePicture(View view) {
             Intent intent = new Intent();
             intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
+            intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
             startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
         }
         @Override
@@ -63,6 +63,8 @@ public class InscriptionActivity extends AppCompatActivity {
             if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                     && data != null && data.getData() != null) {
                 filePath = data.getData();
+                                  getContentResolver().takePersistableUriPermission(filePath, Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                     binding.addimage.setImageBitmap(bitmap);

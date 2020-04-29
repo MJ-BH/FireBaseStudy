@@ -50,7 +50,6 @@ public class ProfileFragment extends Fragment {
                 binding.nomInscri.setText(mUser.getNom());
                 binding.prenomInscri.setText(mUser.getPrenom());
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 

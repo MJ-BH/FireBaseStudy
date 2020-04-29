@@ -5,9 +5,11 @@ apply plugin: 'com.google.gms.google-services'
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
+
     viewBinding {
         enabled = true
     }
+
     defaultConfig {
         applicationId "com.example.firebasestudy"
         minSdkVersion 23
@@ -49,15 +51,11 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:21.4.3'
     // Add the Firebase SDK for firebase-storage
     implementation 'com.google.firebase:firebase-storage:19.1.1'
-    // Add the Firebase SDK for firebase-storage
+    // Add the Firebase SDK for firebase-messaging
     implementation 'com.google.firebase:firebase-messaging:20.1.6'
 
    // Add Glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
-
-
-
-
 
 }

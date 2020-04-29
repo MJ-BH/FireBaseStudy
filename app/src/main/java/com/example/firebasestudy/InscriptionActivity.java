@@ -65,8 +65,8 @@ public class InscriptionActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             mUser.setUid(mAuth.getCurrentUser().getUid());
+                            mUser.setMail(mail);
                             uploadImage();
-
                         } else {
                             binding.progressBar.setVisibility(View.GONE);
                             Snackbar.make(binding.getRoot(), task.getException().getMessage(), Snackbar.LENGTH_LONG);

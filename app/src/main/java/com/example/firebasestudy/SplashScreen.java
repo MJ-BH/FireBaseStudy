@@ -1,16 +1,18 @@
 package com.example.firebasestudy;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.firebasestudy.databinding.ActivityMainBinding;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class SplashScreen extends AppCompatActivity {
     private ActivityMainBinding binding ;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,11 +25,22 @@ public class SplashScreen extends AppCompatActivity {
 
     public void delay (){
         final Handler handler = new Handler();
-        handler.postDelayed(() -> {
-            // Do something after 3s = 3000ms
-            startActivity(new Intent(SplashScreen.this , LoginActivity.class));
-            finish();
-        }, 3000);
+        // Do something after 3s = 3000ms
+        handler.postDelayed(this::isConnected, 3000);
 
     }
+
+    private void isConnected() {
+
+        mAuth = FirebaseAuth.getInstance();
+        if (mAuth.getCurrentUser() != null) {
+            startActivity(new Intent(SplashScreen.this, MainActivity.class));
+            finish();
+        } else {
+            startActivity(new Intent(SplashScreen.this , LoginActivity.class));
+            finish();
+        }
+
+    }
+
 }

@@ -1,6 +1,5 @@
 package com.example.firebasestudy.ui.home.adapter;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -10,8 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -22,11 +21,11 @@ import java.util.ArrayList;
 
 public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.MyViewHolder> {
     ArrayList<Article> articles = new ArrayList<>();
-    Activity activity;
+    NavController navController;
 
-    public ArticlesAdapter(ArrayList<Article> articles, Activity activity) {
+    public ArticlesAdapter(ArrayList<Article> articles, NavController navController) {
         this.articles = articles;
-        this.activity = activity;
+        this.navController = navController;
     }
 
     public ArticlesAdapter(ArrayList<Article> articles) {
@@ -51,20 +50,22 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.MyView
 
         Bundle b = new Bundle();
         b.putString("collectionid", article.getId());
+        holder.itemView.setOnClickListener(v -> {
+            NavDirections navDirections = new NavDirections() {
+                @Override
+                public int getActionId() {
+                    return R.id.navdetail;
+                }
 
-        NavDirections navDirections = new NavDirections() {
-            @Override
-            public int getActionId() {
-                return R.id.action_navigation_home_to_detailFragment;
-            }
+                @NonNull
+                @Override
+                public Bundle getArguments() {
+                    return b;
+                }
+            };
+            navController.navigate(navDirections);
+        });
 
-            @NonNull
-            @Override
-            public Bundle getArguments() {
-                return b;
-            }
-        };
-        Navigation.findNavController(activity, R.id.nav_host_fragment).navigate(navDirections);
 
     }
 

@@ -32,7 +32,7 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.example.firebasestudy.DetailFragment"
-        android:label="fragment_detail"
+        android:label="Article Detail "
         tools:layout="@layout/fragment_detail" />
 
 </navigation>

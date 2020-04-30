@@ -9,8 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -20,13 +20,7 @@ import com.example.firebasestudy.model.Article;
 import java.util.ArrayList;
 
 public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.MyViewHolder> {
-    ArrayList<Article> articles = new ArrayList<>();
-    NavController navController;
-
-    public ArticlesAdapter(ArrayList<Article> articles, NavController navController) {
-        this.articles = articles;
-        this.navController = navController;
-    }
+    private ArrayList<Article> articles;
 
     public ArticlesAdapter(ArrayList<Article> articles) {
         this.articles = articles;
@@ -63,7 +57,8 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.MyView
                     return b;
                 }
             };
-            navController.navigate(navDirections);
+
+            Navigation.findNavController(holder.itemView).navigate(navDirections);
         });
 
 

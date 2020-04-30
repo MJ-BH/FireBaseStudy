@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 
 import com.example.firebasestudy.Constantes;
 import com.example.firebasestudy.databinding.FragmentHomeBinding;
@@ -31,8 +29,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
          binding = FragmentHomeBinding.inflate(getLayoutInflater());
-        NavController navController = Navigation.findNavController(container);
-        articlesAdapter = new ArticlesAdapter(articles, navController);
+        articlesAdapter = new ArticlesAdapter(articles);
         return binding.getRoot();
     }
 

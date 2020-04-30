@@ -1,6 +1,7 @@
 package com.example.firebasestudy;
 
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +54,7 @@ public class DetailFragment extends Fragment {
                 if (task.isSuccessful()) {
                     article = task.getResult().toObject(Article.class);
                     binding.content.setText(article.getContent());
+                    binding.info.setText(DateUtils.getRelativeTimeSpanString(article.getCreatdAt()));
                     // Log.e("id", article.getId());
                 }
 

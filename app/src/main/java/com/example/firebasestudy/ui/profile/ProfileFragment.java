@@ -44,7 +44,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User mUser = dataSnapshot.getValue(User.class);
-                Glide.with(requireContext()).load(mUser.getUrl()).into(binding.addimage);
+                Glide.with(getActivity()).load(mUser.getUrl()).into(binding.addimage);
                 binding.mailInscri.setText(mUser.getMail());
                 binding.nomInscri.setText(mUser.getNom());
                 binding.prenomInscri.setText(mUser.getPrenom());

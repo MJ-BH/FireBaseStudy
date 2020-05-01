@@ -17,6 +17,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentHomeBinding.inflate(getLayoutInflater());
+        articles.clear();
         articlesAdapter = new ArticlesAdapter(articles);
         return binding.getRoot();
     }
@@ -43,10 +45,11 @@ public class HomeFragment extends Fragment {
 
     private void getData() {
         firestore = FirebaseFirestore.getInstance();
-        firestore.collection(Constantes.ARTICLE_COLECTION).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        firestore.collection(Constantes.ARTICLE_COLECTION).orderBy("creatdAt", Query.Direction.DESCENDING).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+                    articles.clear();
                     for (DocumentSnapshot document : task.getResult().getDocuments()) {
                         Article article = document.toObject(Article.class);
                         article.setId(document.getId());

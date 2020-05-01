@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -42,6 +44,21 @@ public class ArticlesAdapter extends RecyclerView.Adapter<ArticlesAdapter.MyView
 
         Bundle b = new Bundle();
         b.putString("collectionid", article.getId());
+
+        NavDirections navDirections = new NavDirections() {
+            @Override
+            public int getActionId() {
+                return R.id.action_navigation_home_to_detailFragment;
+            }
+
+            @NonNull
+            @Override
+            public Bundle getArguments() {
+                return b;
+            }
+        };
+
+        holder.itemView.setOnClickListener(v -> Navigation.findNavController(v).navigate(navDirections));
 
 
     }

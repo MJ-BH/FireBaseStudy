@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 public class MainActivity extends AppCompatActivity {
     AppBarConfiguration appBarConfiguration ;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         initFireBase();
         saveToken();
+        subscribeTotopic();
         BottomNavigationView navView = binding.navView;
 
 
@@ -91,6 +93,22 @@ public class MainActivity extends AppCompatActivity {
             }
 
         });
+
+    }
+
+    private void subscribeTotopic() {
+
+        FirebaseMessaging.getInstance().subscribeToTopic("article").addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (!task.isSuccessful()) {
+                    Log.e("erro", "failed ti subscribe");
+                } else {
+                    Log.e("topic", "SUcces");
+                }
+            }
+        });
+
 
     }
 

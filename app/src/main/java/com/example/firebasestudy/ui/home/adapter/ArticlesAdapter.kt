@@ -18,18 +18,17 @@ import java.util.*
 
 class ArticlesAdapter(var articles: ArrayList<Article?>?) : RecyclerView.Adapter<MyViewHolder?>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        var inflater: LayoutInflater
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_recycler, parent, false)
         return MyViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val article = articles?.get(position)
-        holder.content?.text = article?.getContent()
-        Glide.with(holder.itemView).load(article?.getUrl()).into(holder.image!!)
-        holder.info?.text = DateUtils.getRelativeTimeSpanString(article?.getCreatdAt()!!)
+        holder.content?.text = article?.content
+        Glide.with(holder.itemView).load(article?.url).into(holder.image!!)
+        holder.info?.text = DateUtils.getRelativeTimeSpanString(article?.creatdAt!!)
         val b = Bundle()
-        b.putString("collectionid", article.getId())
+        b.putString("collectionid", article.id)
         val navDirections: NavDirections = object : NavDirections {
             override fun getActionId(): Int {
                 return R.id.action_navigation_home_to_detailFragment

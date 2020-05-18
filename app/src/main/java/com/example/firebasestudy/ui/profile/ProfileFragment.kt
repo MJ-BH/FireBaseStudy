@@ -33,10 +33,10 @@ class ProfileFragment : Fragment() {
         mRefrence?.child(mAuth?.uid!!)?.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val mUser = dataSnapshot.getValue(User::class.java)
-                Glide.with(activity!!).load(mUser?.getUrl()).into(binding.addimage)
-                binding.mailInscri.setText(mUser?.getMail())
-                binding.nomInscri.setText(mUser?.getNom())
-                binding.prenomInscri.setText(mUser?.getPrenom())
+                Glide.with(activity!!).load(mUser?.url).into(binding.addimage)
+                binding.mailInscri.setText(mUser?.mail)
+                binding.nomInscri.setText(mUser?.nom)
+                binding.prenomInscri.setText(mUser?.prenom)
             }
 
             override fun onCancelled(databaseError: DatabaseError) {

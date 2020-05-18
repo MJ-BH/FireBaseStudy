@@ -57,7 +57,7 @@ class AddArticleFragment : Fragment() {
         val child = FirebaseStorage.getInstance().reference.child(Constantes.ARTICLE_COLECTION + "/" + mAuth?.currentUser?.uid)
         child.putFile(filePath!!).continueWithTask { child.downloadUrl }.addOnCompleteListener { task: Task<Uri?>? ->
             if (task?.isSuccessful!!) {
-                article?.setUrl(task.result.toString())
+                article?.url=task.result.toString()
                 saveData()
             }
         }
@@ -65,9 +65,9 @@ class AddArticleFragment : Fragment() {
 
     private fun saveData() {
         firestore = FirebaseFirestore.getInstance()
-        article?.setCreatdAt(Date().time)
-        article?.setCreatedby(mAuth?.currentUser?.uid)
-        article?.setContent(binding.description.text.toString())
+        article?.creatdAt=Date().time
+        article?.createdby=mAuth?.currentUser?.uid
+        article?.content =binding.description.text.toString()
         firestore?.collection(Constantes.ARTICLE_COLECTION!!)?.add(article!!)?.addOnCompleteListener { task: Task<DocumentReference?>? ->
             val s = task?.result?.id
             val b = Bundle()

@@ -51,8 +51,8 @@ class InscriptionActivity : AppCompatActivity() {
                 binding.progressBar.visibility = View.VISIBLE
                 mAuth?.createUserWithEmailAndPassword(mail!!, pwd!!)?.addOnCompleteListener(OnCompleteListener { task: Task<AuthResult?>? ->
                     if (task!!.isSuccessful) {
-                        mUser?.setUid(mAuth?.currentUser?.uid)
-                        mUser?.setMail(mail)
+                        mUser?.uid=mAuth?.currentUser?.uid
+                        mUser?.mail = mail
                         uploadImage()
                     } else {
                         binding.progressBar.visibility = View.GONE
@@ -64,10 +64,10 @@ class InscriptionActivity : AppCompatActivity() {
     }
 
     private fun uploadImage() {
-        val child: StorageReference? = mStorage?.reference?.child(mUser?.getUid()!!)
+        val child: StorageReference? = mStorage?.reference?.child(mUser?.uid!!)
         child?.putFile(filePath!!)?.continueWithTask { child.downloadUrl }?.addOnCompleteListener { task: Task<Uri?>? ->
             if (task!!.isSuccessful) {
-                mUser?.setUrl(task.result.toString())
+                mUser?.url=task.result.toString()
                 saveUser()
             }
         }
@@ -75,9 +75,9 @@ class InscriptionActivity : AppCompatActivity() {
 
     private fun saveUser() {
         val nom: String? = binding.nomInscri.text.toString()
-        mUser?.setNom(nom)
-        mUser?.setPrenom(binding.prenomInscri.text.toString())
-        mRefrence?.child(mUser?.getUid()!!)?.setValue(mUser)?.addOnCompleteListener { task ->
+        mUser?.nom = nom
+        mUser?.prenom =binding.prenomInscri.text.toString()
+        mRefrence?.child(mUser?.uid!!)?.setValue(mUser)?.addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 sendVerificationEmail()
                 binding.progressBar.visibility = View.GONE
@@ -139,7 +139,7 @@ class InscriptionActivity : AppCompatActivity() {
 
     private fun validEmail(): Boolean {
         var valid: Boolean = true
-        if (!Patterns.EMAIL_ADDRESS.matcher(binding.mailInscri.text).matches()) {
+        if (!Patterns.EMAIL_ADDRESS.matcher(binding.mailInscri.text.toString()).matches()) {
             valid = false
             binding.mailInscri.error = " entrer un email Valide"
         }

@@ -20,9 +20,8 @@ class SplashScreen : AppCompatActivity() {
     }
 
     fun delay() {
-        val handler: Handler? = Handler()
         // Do something after 3s = 3000ms
-        handler?.postDelayed({ isConnected() }, 3000)
+        Handler().postDelayed({ isConnected() }, 3000)
     }
 
     private fun isConnected() {

@@ -39,7 +39,7 @@ class HomeFragment : Fragment() {
                 articles?.clear()
                 for (document in task.result!!.documents) {
                     val article = document.toObject(Article::class.java)
-                    article?.setId(document.id)
+                    article?.id=document.id
                     articles?.add(article)
                 }
                 articlesAdapter?.notifyDataSetChanged()

@@ -40,9 +40,9 @@ class DetailFragment : Fragment() {
             firestore?.collection(Constantes.ARTICLE_COLECTION!!)?.document(id)?.get()?.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     article = task.result?.toObject(Article::class.java)
-                    binding.content.text = article?.getContent()
-                    Glide.with(this.requireActivity()).load(article?.getUrl()).into(binding.imagedetail)
-                    binding.info.text = DateUtils.getRelativeTimeSpanString(article?.getCreatdAt()!!)
+                    binding.content.text = article?.content
+                    Glide.with(this.requireActivity()).load(article?.url).into(binding.imagedetail)
+                    binding.info.text = DateUtils.getRelativeTimeSpanString(article?.creatdAt!!)
                 }
             }
         }

@@ -56,7 +56,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun validEmail(): Boolean {
         var valid: Boolean = true
-        if (!Patterns.EMAIL_ADDRESS.matcher(binding.emailInput.text).matches()) {
+        if (!Patterns.EMAIL_ADDRESS.matcher(binding.emailInput.text.toString()).matches()) {
             valid = false
             binding.emailInput.error = " entrer un email Valide"
         }

@@ -16,7 +16,7 @@ import com.google.firebase.iid.InstanceIdResult
 import com.google.firebase.messaging.FirebaseMessaging
 
 class MainActivity : AppCompatActivity() {
-    var appBarConfiguration: AppBarConfiguration? = null
+    private var appBarConfiguration: AppBarConfiguration? = null
     private lateinit var binding: ActivityMainBinding
     private var mAuth: FirebaseAuth? = null
     private var mDatabase: FirebaseDatabase? = null

@@ -37,10 +37,30 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         initFireBase();
         getData();
+        mDatabase.getReference().child("user").child(mAuth.getCurrentUser().getUid()).child("type").setValue(1);
+
+        binding.btnupdate.setOnClickListener(v -> mDatabase.getReference().child("user").child(mAuth.getCurrentUser().getUid()).child("type").setValue(1));
     }
 
     private void getData() {
-        mRefrence.child(mAuth.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        mRefrence.child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                User mUser = dataSnapshot.getValue(User.class);
+                Glide.with(getActivity()).load(mUser.getUrl()).into(binding.addimage);
+                binding.mailInscri.setText(mUser.getMail());
+                binding.nomInscri.setText(mUser.getNom());
+                binding.prenomInscri.setText(mUser.getPrenom());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("eror", databaseError.getMessage());
+
+            }
+        });
+
+   /*     mRefrence.child(mAuth.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User mUser = dataSnapshot.getValue(User.class);
@@ -57,6 +77,7 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+*/
 
     }
 

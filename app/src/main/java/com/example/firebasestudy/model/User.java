@@ -7,7 +7,15 @@ public class User {
     private String prenom;
     private String url;
     private String token;
+    private int type = 0;
 
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
 
     public User() {
     }

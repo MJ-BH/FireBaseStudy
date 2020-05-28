@@ -17,15 +17,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class DetailFragment extends Fragment {
-    FragmentDetailBinding binding;
-    FirebaseFirestore firestore;
-    Article article = new Article();
+    private FragmentDetailBinding binding;
+    private FirebaseFirestore firestore;
+    private Article article = new Article();
     private String id;
 
     @Override
@@ -35,6 +36,7 @@ public class DetailFragment extends Fragment {
         // Inflate the layout for this fragment
         Bundle b = getArguments();
 
+        assert b != null;
         id = b.getString("collectionid");
 
         return binding.getRoot();
@@ -57,7 +59,8 @@ public class DetailFragment extends Fragment {
                 if (task.isSuccessful()) {
                     article = task.getResult().toObject(Article.class);
                     binding.content.setText(article.getContent());
-                    Glide.with(getActivity()).load(article.getUrl()).into(binding.imagedetail);
+                    Glide.with(requireActivity()).load(article.getUrl()).into(binding.imagedetail);
+                    Picasso.get().load("http://i.imgur.com/DvpvklR.png").into(binding.imagedetail);
                     binding.info.setText(DateUtils.getRelativeTimeSpanString(article.getCreatdAt()));
                 }
 

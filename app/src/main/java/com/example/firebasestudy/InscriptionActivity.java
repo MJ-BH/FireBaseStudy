@@ -10,13 +10,10 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.firebasestudy.databinding.ActivityInscriptionBinding;
 import com.example.firebasestudy.model.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -58,6 +55,7 @@ public class InscriptionActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         mUser.setUid(mAuth.getCurrentUser().getUid());
                         mUser.setMail(mail);
+
                         uploadImage();
 
                     } else {
@@ -85,22 +83,19 @@ public class InscriptionActivity extends AppCompatActivity {
         String nom = binding.nomInscri.getText().toString();
         mUser.setNom(nom);
         mUser.setPrenom(binding.prenomInscri.getText().toString());
+        mUser.setType(0);
+        mRefrence.child(mUser.getUid()).setValue(mUser).addOnCompleteListener(task -> {
 
-        mRefrence.child(mUser.getUid()).setValue(mUser).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-
-                if (task.isSuccessful()) {
-                    sendVerificationEmail();
-                    binding.progressBar.setVisibility(View.GONE);
-                    startActivity(new Intent(InscriptionActivity.this, MainActivity.class));
-                    finish();
-                } else {
-                    binding.progressBar.setVisibility(View.GONE);
-                    Snackbar.make(binding.getRoot(), task.getException().getMessage(), Snackbar.LENGTH_LONG);
-                }
-
+            if (task.isSuccessful()) {
+                sendVerificationEmail();
+                binding.progressBar.setVisibility(View.GONE);
+                startActivity(new Intent(InscriptionActivity.this, MainActivity.class));
+                finish();
+            } else {
+                binding.progressBar.setVisibility(View.GONE);
+                Snackbar.make(binding.getRoot(), task.getException().getMessage(), Snackbar.LENGTH_LONG);
             }
+
         });
 
     }

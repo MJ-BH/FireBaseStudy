@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -12,8 +11,6 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.firebasestudy.databinding.ActivityMainBinding;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -80,12 +77,9 @@ public class MainActivity extends AppCompatActivity {
                 return;
             } else {
                 String token = task.getResult().getToken();
-                mRefrence.child(mAuth.getUid()).child("token").setValue(token).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Log.e("token", "token updated :" + token);
-                        }
+                mRefrence.child(mAuth.getUid()).child("token").setValue(token).addOnCompleteListener(task1 -> {
+                    if (task1.isSuccessful()) {
+                        Log.e("token", "token updated :" + token);
                     }
                 });
 
@@ -98,15 +92,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void subscribeTotopic() {
 
-        FirebaseMessaging.getInstance().subscribeToTopic("article").addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (!task.isSuccessful()) {
-                    Log.e("erro", "failed ti subscribe");
-                } else {
-                    Log.e("topic", "SUcces");
-                }
+        FirebaseMessaging.getInstance().subscribeToTopic("article").addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.e("erro", "failed ti subscribe");
+            } else {
+                Log.e("topic", "SUcces");
             }
+        });
+        FirebaseMessaging.getInstance().unsubscribeFromTopic("article").addOnCompleteListener(task -> {
+
         });
 
 
